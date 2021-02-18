@@ -27,6 +27,23 @@
     <string name="change_your_username">Change your username</string>
     <string name="new_username">New username</string>
     <string name="reminders_will_be_created_in_this_activity">REMINDERS WILL BE CREATED IN THIS ACTIVITY</string>
+    <string name="date">Date</string>
+    <string name="reminder_message">Reminder message</string>
+    <string name="add_new_reminder">ADD NEW REMINDER</string>
+    <string name="date_dd_mm_yyyy">Date (DD/MM/YYYY)</string>
+    <string name="time">Time</string>
+    <string name="add">ADD</string>
+    <string name="contact_name">Contact Name</string>
+    <string name="reminder_time">Reminder Time</string>
+    <string name="reminder_message2">Reminder Message</string>
+    <string name="rem">Rem</string>
+    <string name="reminder2">rem</string>
+    <string name="reminder_type">Reminder type</string>
+    <string name="edit_reminder">EDIT REMINDER</string>
+    <string name="edit_a_message">Edit a message</string>
+    <string name="delete_reminder">DELETE REMINDER</string>
+    <string name="message">Message</string>
+    <string name="speak">SPEAK</string>
 
 
 </resources>

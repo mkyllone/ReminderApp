@@ -7,12 +7,142 @@
     tools:context=".NewReminderActivity">
 
     <TextView
-        android:id="@+id/textView6"
-        android:layout_width="271dp"
-        android:layout_height="91dp"
-        android:text="@string/reminders_will_be_created_in_this_activity"
+        android:id="@+id/txtRemDate"
+        android:layout_width="140dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="32dp"
+        android:autofillHints=""
+        android:gravity="center_vertical"
+        android:text="@string/date"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtRemTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtRemTime"
+        android:layout_width="140dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="32dp"
+        android:autofillHints=""
+        android:gravity="center_vertical"
+        android:text="@string/time"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtReminderType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.369"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <EditText
+        android:id="@+id/txtMessage"
+        android:layout_width="216dp"
+        android:layout_height="61dp"
+        android:layout_marginBottom="40dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/reminder_message"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/txtRemDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.358"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtReminder"
+        android:layout_width="238dp"
+        android:layout_height="48dp"
+        android:text="@string/add_new_reminder"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txtMessage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.669" />
+
+    <Button
+        android:id="@+id/btnSubmit3"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="60dp"
+        android:text="@string/submit"
+        app:backgroundTint="#FF0000"
         app:layout_constraintBottom_toBottomOf="parent"
         app:layout_constraintEnd_toEndOf="parent"
-        app:layout_constraintStart_toStartOf="parent"
-        app:layout_constraintTop_toTopOf="parent" />
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnDate"
+        android:layout_width="64dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginTop="36dp"
+        android:text="@string/add"
+        android:textSize="14sp"
+        app:backgroundTint="#4CAF50"
+        app:layout_constraintBottom_toTopOf="@+id/btnTime"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.022"
+        app:layout_constraintStart_toEndOf="@+id/txtRemDate"
+        app:layout_constraintTop_toBottomOf="@+id/txtMessage"
+        app:layout_constraintVertical_bias="0.0" />
+
+    <Button
+        android:id="@+id/btnTime"
+        android:layout_width="64dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="28dp"
+        android:text="@string/add"
+        app:backgroundTint="#2196F3"
+        app:layout_constraintBottom_toTopOf="@+id/btnType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.022"
+        app:layout_constraintStart_toEndOf="@+id/txtRemTime" />
+
+    <Button
+        android:id="@+id/btnType"
+        android:layout_width="64dp"
+        android:layout_height="48dp"
+        android:layout_marginStart="20dp"
+        android:layout_marginLeft="20dp"
+        android:layout_marginBottom="76dp"
+        android:text="@string/add"
+        app:backgroundTint="#FF9800"
+        app:layout_constraintBottom_toTopOf="@+id/btnSubmit3"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.022"
+        app:layout_constraintStart_toEndOf="@+id/txtRemTime" />
+
+    <TextView
+        android:id="@+id/txtReminderType"
+        android:layout_width="140dp"
+        android:layout_height="45dp"
+        android:layout_marginBottom="76dp"
+        android:gravity="center_vertical"
+        android:text="@string/reminder_type"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSubmit3"
+        app:layout_constraintEnd_toStartOf="@+id/btnType"
+        app:layout_constraintHorizontal_bias="0.819"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/speak"
+        android:layout_width="31dp"
+        android:layout_height="28dp"
+        android:contentDescription="@string/todo"
+        app:layout_constraintBottom_toTopOf="@+id/btnDate"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.074"
+        app:layout_constraintStart_toEndOf="@+id/txtMessage"
+        app:layout_constraintTop_toBottomOf="@+id/txtReminder"
+        app:layout_constraintVertical_bias="0.607"
+        app:srcCompat="@drawable/ic_keyboard_voice_24px" />
+
+
 </androidx.constraintlayout.widget.ConstraintLayout>

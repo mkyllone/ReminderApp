@@ -4,8 +4,8 @@ import android.content.Intent
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.util.Log
-import android.widget.ArrayAdapter
 import android.widget.ListView
+import android.widget.Toast
 import com.mobicomp.reminderapp.databinding.ActivityMenuBinding
 
 class MenuActivity : AppCompatActivity() {
@@ -27,10 +27,10 @@ class MenuActivity : AppCompatActivity() {
         binding.txtUsername.text = ""
         binding.txtUsername.append(data[userId].username)
 
-        // Creating listview
+        // Creating a listview
         val listView = findViewById<ListView>(R.id.listReminders)
-        val names = arrayOf("Reminder1 example", "Reminder2 example", "Reminder3 example", "Reminder4 example")
-        val arrayAdapter: ArrayAdapter<String> = ArrayAdapter(this, android.R.layout.simple_list_item_1, names)
+        val reminders = db.getReminderArray(userId)
+        val arrayAdapter = ReminderArrayAdapter(this, reminders)
         listView.adapter = arrayAdapter
 
         binding.btnLogout.setOnClickListener{
@@ -51,9 +51,21 @@ class MenuActivity : AppCompatActivity() {
 
         binding.btnNewRem.setOnClickListener{
             Log.d("New reminder", "New reminder button clicked")
-            startActivity(
-                    Intent(applicationContext, NewReminderActivity::class.java)
-            )
+
+            // Pass user index into NewReminderActivity
+            val intent = Intent(this@MenuActivity, NewReminderActivity::class.java)
+            intent.putExtra("userId", userId)
+            startActivity(intent)
+        }
+
+        listView.setOnItemClickListener { _, _, position, _ ->
+
+            val intent = Intent(this@MenuActivity, ReminderEditActivity::class.java)
+
+            val remId = db.getReminderId(userId, position)
+            intent.putExtra("userId", userId)
+            intent.putExtra("remId", remId)
+            startActivity(intent)
         }
     }
 

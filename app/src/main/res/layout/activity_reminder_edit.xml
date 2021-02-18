@@ -1,0 +1,190 @@
+<?xml version="1.0" encoding="utf-8"?>
+<androidx.constraintlayout.widget.ConstraintLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    tools:context=".ReminderEditActivity">
+
+    <Button
+        android:id="@+id/btnTime2"
+        android:layout_width="67dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/add"
+        app:backgroundTint="#2196F3"
+        app:layout_constraintBottom_toTopOf="@+id/btnReminderType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.22"
+        app:layout_constraintStart_toEndOf="@+id/txtEditTime" />
+
+    <TextView
+        android:id="@+id/txteditreminder"
+        android:layout_width="199dp"
+        android:layout_height="79dp"
+        android:gravity="center"
+        android:text="@string/edit_reminder"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txtEditMessage"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.952" />
+
+    <EditText
+        android:id="@+id/txtEditMessage"
+        android:layout_width="wrap_content"
+        android:layout_height="wrap_content"
+        android:layout_marginBottom="16dp"
+        android:autofillHints=""
+        android:ems="10"
+        android:hint="@string/edit_a_message"
+        android:inputType="textPersonName"
+        app:layout_constraintBottom_toTopOf="@+id/btnDate2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.497"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtEditDate"
+        android:layout_width="118dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="100dp"
+        android:layout_marginLeft="100dp"
+        android:layout_marginTop="16dp"
+        android:gravity="center_vertical"
+        android:text="@string/date"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtEditTime"
+        app:layout_constraintEnd_toStartOf="@+id/btnDate2"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toBottomOf="@+id/txtEditMessage"
+        app:layout_constraintVertical_bias="0.055" />
+
+    <TextView
+        android:id="@+id/txtEditTime"
+        android:layout_width="118dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="16dp"
+        android:gravity="center_vertical"
+        android:text="@string/time"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/txtEditReminderType"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.337"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <TextView
+        android:id="@+id/txtEditReminderType"
+        android:layout_width="118dp"
+        android:layout_height="43dp"
+        android:layout_marginBottom="28dp"
+        android:gravity="center_vertical"
+        android:text="@string/reminder_type"
+        android:textSize="18sp"
+        app:layout_constraintBottom_toTopOf="@+id/btnSubmit4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.341"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnDate2"
+        android:layout_width="67dp"
+        android:layout_height="46dp"
+        android:layout_marginBottom="16dp"
+        android:text="@string/add"
+        app:backgroundTint="#4CAF50"
+        app:layout_constraintBottom_toTopOf="@+id/btnTime2"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.712"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnReminderType"
+        android:layout_width="67dp"
+        android:layout_height="46dp"
+        android:layout_marginEnd="100dp"
+        android:layout_marginRight="100dp"
+        android:layout_marginBottom="24dp"
+        android:text="@string/add"
+        app:backgroundTint="#009688"
+        app:layout_constraintBottom_toTopOf="@+id/btnSubmit4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="1.0"
+        app:layout_constraintStart_toEndOf="@+id/txtEditReminderType" />
+
+    <Button
+        android:id="@+id/btnSubmit4"
+        android:layout_width="150dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="12dp"
+        android:text="@string/submit"
+        app:backgroundTint="#FFC107"
+        app:layout_constraintBottom_toTopOf="@+id/btnDelete"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <Button
+        android:id="@+id/btnDelete"
+        android:layout_width="150dp"
+        android:layout_height="56dp"
+        android:layout_marginBottom="40dp"
+        android:text="@string/delete_reminder"
+        app:backgroundTint="#E91E1E"
+        app:layout_constraintBottom_toBottomOf="parent"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.498"
+        app:layout_constraintStart_toStartOf="parent" />
+
+    <ImageView
+        android:id="@+id/imgType"
+        android:layout_width="108dp"
+        android:layout_height="116dp"
+        android:layout_marginStart="32dp"
+        android:layout_marginLeft="32dp"
+        android:layout_marginBottom="20dp"
+        android:contentDescription="@string/todo"
+        app:layout_constraintBottom_toTopOf="@+id/txteditreminder"
+        app:layout_constraintStart_toStartOf="parent"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.825"
+        tools:srcCompat="@tools:sample/avatars" />
+
+    <TextView
+        android:id="@+id/txtMessage4"
+        android:layout_width="253dp"
+        android:layout_height="69dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginTop="48dp"
+        android:gravity="center_vertical"
+        android:text="@string/message"
+        android:textSize="24sp"
+        android:textStyle="bold"
+        app:layout_constraintBottom_toTopOf="@+id/txtDate4"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imgType"
+        app:layout_constraintTop_toTopOf="parent"
+        app:layout_constraintVertical_bias="0.88" />
+
+    <TextView
+        android:id="@+id/txtDate4"
+        android:layout_width="193dp"
+        android:layout_height="43dp"
+        android:layout_marginStart="16dp"
+        android:layout_marginLeft="16dp"
+        android:layout_marginBottom="36dp"
+        android:gravity="center_vertical"
+        android:text="@string/date"
+        android:textSize="18sp"
+        android:textStyle="bold|italic"
+        app:layout_constraintBottom_toTopOf="@+id/txteditreminder"
+        app:layout_constraintEnd_toEndOf="parent"
+        app:layout_constraintHorizontal_bias="0.0"
+        app:layout_constraintStart_toEndOf="@+id/imgType" />
+
+</androidx.constraintlayout.widget.ConstraintLayout>
