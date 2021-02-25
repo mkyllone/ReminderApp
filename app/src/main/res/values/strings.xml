@@ -44,6 +44,8 @@
     <string name="delete_reminder">DELETE REMINDER</string>
     <string name="message">Message</string>
     <string name="speak">SPEAK</string>
+    <string name="notification_time_hours">Notification time (hours)</string>
+    <string name="reminder_notifications">Reminder notifications</string>
 
 
 </resources>

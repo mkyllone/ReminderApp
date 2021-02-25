@@ -186,7 +186,7 @@ class DBHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
         val data = this.readDataReminders()
 
         for (i in 0 until data.size){
-            if (data[i].creator_id == id){
+            if (data[i].creator_id == id && data[i].reminder_seen == 1){
                 list.add(Reminder(data[i].img_id, data[i].message, data[i].reminder_time))
             }
         }
@@ -246,10 +246,14 @@ class DBHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
 
         val data = this.readDataReminders()
         var id : Int = 0
+        var pos = position
 
         for (i in 0 until data.size){
             if (userId == (data[i].creator_id)){
-                if (id == position) {
+                if (data[i].reminder_seen == 0){
+                    continue
+                }
+                if (id == pos) {
                     id = i + 1
                     break
                 }
@@ -289,5 +293,33 @@ class DBHandler(var context: Context) : SQLiteOpenHelper(context, DATABASE_NAME,
         db.close()
     }
 
+    // This function is called when notification appears for a specific reminder,
+    // reminder_seen is set to 1 in order to make reminder visible in a listview
+    fun makeReminderVisible(message : String, date : String, imgId : Int, userId : Int) {
+
+        val data = this.readDataReminders()
+        val db = this.writableDatabase
+        db.delete(TABLE_NAME_REM, null, null)
+        val cv = ContentValues()
+
+        for (i in 0 until data.size) {
+
+            if (data[i].message == message && data[i].reminder_time == date &&
+                    data[i].img_id == imgId && data[i].creator_id == userId) {
+                cv.put(COL_REMINDER_SEEN, 1)
+            }
+            else {
+                cv.put(COL_REMINDER_SEEN, data[i].reminder_seen)
+            }
+            cv.put(COL_MESSAGE, data[i].message)
+            cv.put(COL_IMAGEID, data[i].img_id)
+            cv.put(COL_REMINDER_TIME, data[i].reminder_time)
+            cv.put(COL_LOCATION_X, data[i].location_x)
+            cv.put(COL_LOCATION_Y, data[i].location_y)
+            cv.put(COL_CREATION_TIME, data[i].creation_time)
+            cv.put(COL_CREATOR_ID, data[i].creator_id)
+            db.insert(TABLE_NAME_REM, null, cv)
+        }
+    }
 
 }

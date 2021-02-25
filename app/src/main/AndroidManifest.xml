@@ -9,7 +9,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ReminderApp">
-        <activity android:name=".ReminderEditActivity"></activity>
+        <activity android:name=".Notification"></activity>
+        <activity android:name=".MainActivity2" />
+        <activity android:name=".ReminderEditActivity" />
         <activity android:name=".ReminderArrayAdapter" />
         <activity android:name=".ContactArrayAdapter" />
         <activity android:name=".NewReminderActivity" />

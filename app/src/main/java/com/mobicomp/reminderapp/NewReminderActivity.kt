@@ -4,18 +4,23 @@ import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
 import android.app.TimePickerDialog
-import android.content.ActivityNotFoundException
 import android.content.Intent
 import android.os.Build
 import androidx.appcompat.app.AppCompatActivity
 import android.os.Bundle
 import android.speech.RecognizerIntent
 import android.speech.tts.TextToSpeech
+import android.util.Log
 import android.widget.Toast
 import androidx.annotation.RequiresApi
+import androidx.work.Data
+import androidx.work.OneTimeWorkRequestBuilder
+import androidx.work.WorkManager
+import androidx.work.workDataOf
 import com.mobicomp.reminderapp.databinding.ActivityNewReminderBinding
 import java.lang.String.format
 import java.util.*
+import java.util.concurrent.TimeUnit
 
 class NewReminderActivity : AppCompatActivity() {
 
@@ -38,10 +43,20 @@ class NewReminderActivity : AppCompatActivity() {
         // Calendar
         val c = Calendar.getInstance()
         val year = c.get(Calendar.YEAR)
-        val month = c.get(Calendar.MONTH) + 1
+        val month = c.get(Calendar.MONTH)
         val day = c.get(Calendar.DAY_OF_MONTH)
         val hour = c.get(Calendar.HOUR_OF_DAY)
         val minute = c.get(Calendar.MINUTE)
+
+        // Time&datepicker values
+        var remYear = 0
+        var remMonth = 0
+        var remDay = 0
+        var remHour = 0
+        var remMinute = 0
+
+        // Variable for notifications on/off
+        var showNotification : Boolean = true
 
         // Submit button
         binding.btnSubmit3.setOnClickListener{
@@ -49,10 +64,14 @@ class NewReminderActivity : AppCompatActivity() {
             if(binding.txtMessage.text.toString().isEmpty() ||
                     binding.txtRemDate.text.toString() == "Date" ||
                     binding.txtRemTime.text.toString() == "Time" ||
-                    binding.txtReminderType.text.toString() == "Reminder type"){
+                    binding.txtReminderType.text.toString() == "Reminder type" ||
+                    binding.txtNotificationVisibility.text.toString() == "Reminder notifications"
+                    ){
                 Toast.makeText(context, "Please fill all fields!", Toast.LENGTH_SHORT).show()
             }
             else{
+
+                // Making a new reminder
                 val reminder = Reminder(binding.txtMessage.text.toString(),
                         imgId,
                         "locationX",
@@ -64,6 +83,52 @@ class NewReminderActivity : AppCompatActivity() {
                         userId,
                         0
                 )
+
+                // Convert notification time (hours) to milliseconds
+                val delay = binding.txtNumber.text.toString().toInt() * 3600000
+
+                // Data passed to WorkManager
+                val data: Data = workDataOf(
+                        "message" to binding.txtMessage.text.toString(),
+                        "date" to binding.txtRemDate.text.toString() + " " +
+                                binding.txtRemTime.text.toString(),
+                        "imgId" to imgId,
+                        "userId" to userId,
+                        "showNotification" to showNotification
+                )
+                val dataDue: Data = workDataOf(
+                        "message" to binding.txtMessage.text.toString(),
+                        "date" to "Reminder due is now!",
+                        "imgId" to imgId,
+                        "showNotification" to showNotification
+                )
+
+                val currentDate = Calendar.getInstance()
+                val dueDate = Calendar.getInstance()
+                dueDate.set(Calendar.YEAR, remYear)
+                dueDate.set(Calendar.MONTH, remMonth)
+                dueDate.set(Calendar.DAY_OF_MONTH, remDay)
+                dueDate.set(Calendar.HOUR_OF_DAY, remHour)
+                dueDate.set(Calendar.MINUTE, remMinute)
+
+                // Calculating the delays for WorkManager
+                val timeDelay = dueDate.timeInMillis - currentDate.timeInMillis - delay
+                val timeDelayDue = dueDate.timeInMillis - currentDate.timeInMillis
+
+                // Creating a new WorkManager including a given reminder time, before due
+                val reminderWorkerRequest = OneTimeWorkRequestBuilder<ReminderWorker>()
+                        .setInitialDelay(timeDelay, TimeUnit.MILLISECONDS)
+                        .setInputData(data)
+                        .build()
+                WorkManager.getInstance(context).enqueue(reminderWorkerRequest)
+
+
+                // Creating a new WorkManager when the reminder is due
+                val reminderWorkerRequestDue = OneTimeWorkRequestBuilder<ReminderWorker>()
+                        .setInitialDelay(timeDelayDue, TimeUnit.MILLISECONDS)
+                        .setInputData(dataDue)
+                        .build()
+                WorkManager.getInstance(context).enqueue(reminderWorkerRequestDue)
 
                 db.insertDataReminder(reminder)
                 val intent = Intent(this@NewReminderActivity, MenuActivity::class.java)
@@ -78,7 +143,10 @@ class NewReminderActivity : AppCompatActivity() {
 
             val date = DatePickerDialog(this, DatePickerDialog.OnDateSetListener
             { _, year, month, dayOfMonth ->
-                binding.txtRemDate.text = "" + dayOfMonth + "/" + month + "/" + year
+                binding.txtRemDate.text = "" + dayOfMonth + "/" + (month+1) + "/" + year
+                remYear = year
+                remMonth = month
+                remDay = dayOfMonth
             }, year, month, day)
             date.show()
         }
@@ -89,6 +157,8 @@ class NewReminderActivity : AppCompatActivity() {
             val time = TimePickerDialog(this, TimePickerDialog.OnTimeSetListener
             { _, hourOfDay, minute ->
                 binding.txtRemTime.text = format("%02d:%02d", hourOfDay, minute)
+                remHour = hourOfDay
+                remMinute = minute
             },hour, minute, true)
             time.show()
         }
@@ -129,18 +199,38 @@ class NewReminderActivity : AppCompatActivity() {
         }
 
 
-        // Text to speech button
+        // Speech-to-text button
         binding.speak.setOnClickListener{
             val speakIntent = Intent(RecognizerIntent.ACTION_RECOGNIZE_SPEECH)
             speakIntent.putExtra(RecognizerIntent.EXTRA_PROMPT, "Speak now!")
             startActivityForResult(speakIntent, REQUEST_CODE_STT)
         }
 
+        // Reminder notifications on/off button
+        binding.btnNotification.setOnClickListener{
 
+            val builder = AlertDialog.Builder(this)
+            builder.setTitle("Do you want to make reminder with a notification?")
 
+            val types = arrayOf("Yes", "No")
+            builder.setItems(types) { _, which ->
+                when (which) {
+                    0 -> {
+                        binding.txtNotificationVisibility.text = "Notifications on"
+                        showNotification = true
+                    }
+                    1 -> {
+                        binding.txtNotificationVisibility.text = "Notifications off"
+                        showNotification = false
+                    }
+                }
+            }
+            val dialog = builder.create()
+            dialog.show()
+        }
     }
 
-    // Text to speech
+    // Speech-to-text
     companion object {
         private const val REQUEST_CODE_STT = 1
     }
@@ -178,5 +268,9 @@ class NewReminderActivity : AppCompatActivity() {
         textToSpeechEngine.shutdown()
         super.onDestroy()
     }
+
+
+
+
 }
 
