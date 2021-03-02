@@ -4,6 +4,7 @@ import android.app.NotificationChannel
 import android.app.NotificationManager
 import android.content.Context
 import android.os.Build
+import android.widget.Toast
 import androidx.core.app.NotificationCompat
 import androidx.work.Worker
 import androidx.work.WorkerParameters
@@ -14,19 +15,25 @@ class ReminderWorker(appContext: Context, workerParams: WorkerParameters):
     Worker(appContext, workerParams) {
     override fun doWork(): Result {
 
+        val db = DBHandler(applicationContext)
+
         // Receiving reminder data from NewReminderActivity
         val message = inputData.getString("message")
         val imgId = inputData.getInt("imgId", 0)
         val date = inputData.getString("date")
         val userId = inputData.getInt("userId", -1)
         val showNotification = inputData.getBoolean("showNotification", true)
+        val timingRequirement = inputData.getInt("timingRequirement", 1)
+
+        val remId = db.getReminderId2(message.toString(), date.toString(), imgId, userId)
+        val reminderInRange = db.reminderInRange(userId, remId)
+
 
         // Displaying a notification & making reminder visible in listview
-        val db = DBHandler(applicationContext)
-        if (message != null && date != null && showNotification) {
+        if (message != null && date != null && showNotification && timingRequirement != 0 && reminderInRange) {
             showNotification(applicationContext, message, imgId, date)
         }
-        if (message != null && date != null && userId != -1) {
+        if (message != null && date != null && userId != -1 && reminderInRange) {
             db.makeReminderVisible(message, date, imgId, userId)
         }
 

@@ -1,5 +1,6 @@
 package com.mobicomp.reminderapp
 
+import android.annotation.SuppressLint
 import android.app.Activity
 import android.app.AlertDialog
 import android.app.DatePickerDialog
@@ -27,13 +28,18 @@ class NewReminderActivity : AppCompatActivity() {
     private lateinit var binding: ActivityNewReminderBinding
     @RequiresApi(Build.VERSION_CODES.N)
 
+    var locationX : Double = 0.0
+    var locationY : Double = 0.0
 
+    @SuppressLint("DefaultLocale")
     override fun onCreate(savedInstanceState: Bundle?) {
+
 
         super.onCreate(savedInstanceState)
         binding = ActivityNewReminderBinding.inflate(layoutInflater)
         val view = binding.root
         setContentView(view)
+
 
         var imgId : Int = 4
         val context = this
@@ -74,8 +80,8 @@ class NewReminderActivity : AppCompatActivity() {
                 // Making a new reminder
                 val reminder = Reminder(binding.txtMessage.text.toString(),
                         imgId,
-                        "locationX",
-                        "locationY",
+                        locationX,
+                        locationY,
                         binding.txtRemDate.text.toString() + " " +
                                 binding.txtRemTime.text.toString(),
                         day.toString() + "/" + month.toString() + "/" + year.toString() +
@@ -85,7 +91,20 @@ class NewReminderActivity : AppCompatActivity() {
                 )
 
                 // Convert notification time (hours) to milliseconds
-                val delay = binding.txtNumber.text.toString().toInt() * 3600000
+                var delay : Int = 0
+                if (binding.txtNumber.text.toString().isNotEmpty()) {
+                    delay = binding.txtNumber.text.toString().toInt() * 3600000
+
+                }
+
+                // Timing requirement
+                var timingRequirement : Int = 0
+                if (binding.txtNumber.text.toString().isEmpty()) {
+                    timingRequirement = 0
+                }
+                else{
+                    timingRequirement = 1
+                }
 
                 // Data passed to WorkManager
                 val data: Data = workDataOf(
@@ -94,13 +113,15 @@ class NewReminderActivity : AppCompatActivity() {
                                 binding.txtRemTime.text.toString(),
                         "imgId" to imgId,
                         "userId" to userId,
-                        "showNotification" to showNotification
+                        "showNotification" to showNotification,
+                        "timingRequirement" to timingRequirement
                 )
                 val dataDue: Data = workDataOf(
                         "message" to binding.txtMessage.text.toString(),
                         "date" to "Reminder due is now!",
                         "imgId" to imgId,
-                        "showNotification" to showNotification
+                        "showNotification" to showNotification,
+                        "timingRequirement" to 1
                 )
 
                 val currentDate = Calendar.getInstance()
@@ -121,6 +142,7 @@ class NewReminderActivity : AppCompatActivity() {
                         .setInputData(data)
                         .build()
                 WorkManager.getInstance(context).enqueue(reminderWorkerRequest)
+
 
 
                 // Creating a new WorkManager when the reminder is due
@@ -228,6 +250,16 @@ class NewReminderActivity : AppCompatActivity() {
             val dialog = builder.create()
             dialog.show()
         }
+
+        // Button for selecting location for reminder
+        binding.btnLocation2.setOnClickListener{
+
+            val requestCode = 0
+            val intent = Intent(this, MapsActivityReminder::class.java)
+            startActivityForResult(intent, requestCode)
+
+        }
+
     }
 
     // Speech-to-text
@@ -257,6 +289,14 @@ class NewReminderActivity : AppCompatActivity() {
                 }
             }
         }
+        when(requestCode) {
+            0 -> {
+                if (data != null) {
+                    locationX = data.getStringExtra("latitude").toString().toDouble()
+                    locationY = data.getStringExtra("longitude").toString().toDouble()
+                    binding.txtLocation.text = format("Lat: %06f\nLong: %06f", locationX, locationY)
+                }; }
+        }
     }
 
     override fun onPause() {
@@ -268,6 +308,7 @@ class NewReminderActivity : AppCompatActivity() {
         textToSpeechEngine.shutdown()
         super.onDestroy()
     }
+
 
 
 

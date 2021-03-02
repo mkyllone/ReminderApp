@@ -7,15 +7,15 @@ class Reminder{
     var id : Int = 0
     var img_id : Int = 0
     var message : String = ""
-    var location_x : String = ""
-    var location_y : String = ""
+    var location_x : Double = 0.0
+    var location_y : Double = 0.0
     var reminder_time : String = ""
     var creation_time : String = ""
     var creator_id : Int = 0
     var reminder_seen : Int = 0
 
     // Constructors
-    constructor(message : String, img_id : Int, location_x : String, location_y : String,
+    constructor(message : String, img_id : Int, location_x : Double, location_y : Double,
                 reminder_time : String, creation_time : String, creator_id : Int,
                 reminder_seen : Int) {
         this.message = message

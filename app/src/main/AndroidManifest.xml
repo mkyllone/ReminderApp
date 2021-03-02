@@ -2,6 +2,8 @@
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
     package="com.mobicomp.reminderapp">
 
+    <uses-permission android:name="android.permission.ACCESS_FINE_LOCATION" />
+
     <application
         android:allowBackup="true"
         android:icon="@mipmap/ic_launcher"
@@ -9,11 +11,14 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/Theme.ReminderApp">
-        <activity android:name=".Notification"></activity>
-        <activity android:name=".MainActivity2" />
+        <activity android:name=".MapsActivityReminder"></activity>
+
+        <meta-data
+            android:name="com.google.android.geo.API_KEY"
+            android:value="AIzaSyAJee_6V69Lj2ijcqG9fC0gOZw6v02nepk" />
+
+        <activity android:name=".MapsActivity" />
         <activity android:name=".ReminderEditActivity" />
-        <activity android:name=".ReminderArrayAdapter" />
-        <activity android:name=".ContactArrayAdapter" />
         <activity android:name=".NewReminderActivity" />
         <activity android:name=".ChangePwActivity" />
         <activity android:name=".ChangeUnActivity" />

@@ -6,6 +6,9 @@ class User{
     var id : Int = 0
     var username : String = ""
     var password : String = ""
+    var latitude : Double = 0.0
+    var longitude : Double = 0.0
+
 
     // Constructors
     constructor(username : String, password : String) {
@@ -14,4 +17,9 @@ class User{
     }
     constructor(){
     }
+    constructor(latitude : Double, longitude : Double) {
+        this.latitude = latitude
+        this.longitude = latitude
+    }
+
 }

@@ -67,6 +67,14 @@ class MenuActivity : AppCompatActivity() {
             intent.putExtra("remId", remId)
             startActivity(intent)
         }
+
+        binding.btnLocation.setOnClickListener{
+
+            val intent = Intent(this@MenuActivity, MapsActivity::class.java)
+            intent.putExtra("userId", userId)
+            startActivity(intent)
+
+        }
     }
 
 }

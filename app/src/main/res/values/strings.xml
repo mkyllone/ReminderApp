@@ -46,6 +46,10 @@
     <string name="speak">SPEAK</string>
     <string name="notification_time_hours">Notification time (hours)</string>
     <string name="reminder_notifications">Reminder notifications</string>
+    <string name="optional_features">Optional features</string>
+    <string name="location">Location</string>
+    <string name="notification_time_hours_optional">Notification time (hours, optional)</string>
+    <string name="location_optional">Location (optional)</string>
 
 
 </resources>
